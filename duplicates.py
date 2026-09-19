@@ -1,4 +1,4 @@
-import hash
+import hashing
 import os
 import scanner
 
@@ -9,7 +9,7 @@ def find_duplicates(folder: str) -> dict:
 
     for filename in files:
         full_path = os.path.join(folder, filename)
-        file_hash = hash.get_file_hash(full_path)
+        file_hash = hashing.get_file_hash(full_path)
 
         if file_hash not in hashes:
             hashes[file_hash] = []

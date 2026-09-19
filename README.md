@@ -49,6 +49,48 @@ MyFolder/
 
 Before making changes, the planned operations are displayed for review.
 
+## Demo
+
+A dry run on that same folder, showing the plan without touching anything:
+
+```console
+$ python main.py MyFolder --dry-run
+=============
+
+Batch File Organizer v1.0
+
+=============
+
+Found: 4 files
+Document (2) notes.txt report.pdf
+Image (1) photo.jpg
+Code (1) script.py
+
+=== OPERATION REVIEW ===
+
+[1/4]
+Old: notes.txt
+New: backup_1.txt
+Destination: Document
+
+[2/4]
+Old: photo.jpg
+New: backup_2.jpg
+Destination: Image
+
+[3/4]
+Old: report.pdf
+New: backup_3.pdf
+Destination: Document
+
+[4/4]
+Old: script.py
+New: backup_4.py
+Destination: Code
+
+Dry run — no changes made.
+```
+
 ## Requirements
 
 * Python 3.10 or newer
@@ -61,7 +103,7 @@ The project uses only the Python standard library.
 Clone the repository:
 
 ```bash
-git clone https://github.com/xAlayham/File_Organizer.git
+git clone https://github.com/xAlayham/file-organiser.git
 cd file-organiser
 ```
 
@@ -167,15 +209,21 @@ Settings provided in the configuration file are merged with the default settings
 
 ## Logging
 
-The application records execution information in log files.
+The application writes two different kinds of log, both into the `logs/` folder.
 
-Logs include:
+**Execution logs** (`logger.py`) — one new file per run, named after the run's
+timestamp, such as `logs/2026-09-19_14-30-00.log`. Each is a readable report of
+that single run:
 
 * The folder that was organised
 * The planned file operations
 * The number of successful operations
 * The number of failed operations
 * Application start and completion information
+
+**Application log** (`system_logger.py`) — a single `logs/app.log` that every run
+appends to, written through Python's standard `logging` module with timestamps
+and levels. This is the diagnostic trail across runs, not a report of any one run.
 
 ## Undo System
 
@@ -240,6 +288,7 @@ file-organiser/
 ├── scanner.py
 ├── categoriser.py
 ├── duplicates.py
+├── hashing.py
 ├── renamer.py
 ├── planner.py
 ├── executor.py
@@ -263,14 +312,15 @@ file-organiser/
 | `scanner.py`       | Scans folders for files              |
 | `categoriser.py`   | Determines file categories           |
 | `duplicates.py`    | Detects duplicate files              |
+| `hashing.py`       | Computes SHA-256 file hashes         |
 | `renamer.py`       | Generates new file names             |
 | `planner.py`       | Builds the organisation plan         |
 | `executor.py`      | Renames and moves files              |
 | `undo.py`          | Reverses organisation operations     |
 | `history.py`       | Stores and manages operation history |
-| `logger.py`        | Creates execution logs               |
+| `logger.py`        | Writes the per-run execution log     |
 | `display.py`       | Handles terminal output              |
-| `system_logger.py` | Handles application logging          |
+| `system_logger.py` | Writes the application's own log     |
 | `tests.py`         | Automated test suite                 |
 
 ## Current Status
@@ -307,4 +357,4 @@ Possible future improvements include:
 
 ## License
 
-This project is available for educational and personal use.
+Released under the [MIT License](LICENSE).

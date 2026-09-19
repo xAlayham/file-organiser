@@ -1,8 +1,13 @@
 import hashlib
 
-def get_file_hash(path: str) -> str:
-    """Return the SHA-256 hash of a file's contents."""
-    with open(path, "rb") as f:
-        data = f.read()
+CHUNK_SIZE = 65536
 
-    return hashlib.sha256(data).hexdigest()
+def get_file_hash(path: str) -> str:
+    """Return the SHA-256 hash of a file's contents, reading it in chunks."""
+    digest = hashlib.sha256()
+
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(CHUNK_SIZE), b""):
+            digest.update(chunk)
+
+    return digest.hexdigest()

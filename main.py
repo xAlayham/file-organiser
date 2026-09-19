@@ -89,7 +89,7 @@ def main() -> None:
         display.print_operations(operations)
 
         if args.dry_run:
-            print("Dry run — no changes made.")
+            print("Dry run - no changes made.")
 
         elif display.confirm_action("Proceed with rename?", auto_confirm=args.no_confirm):
             system_logger.info("Executing rename plan")
